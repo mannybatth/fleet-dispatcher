@@ -9,23 +9,67 @@ class LoadsScreen extends StatefulWidget {
 }
 
 class _LoadsScreenState extends State<LoadsScreen> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _titleOptions = <Widget>[
+    Text('Current Loads'),
+    Text('Delivered Loads'),
+    Text('Invoiced Loads'),
+    Text('Paid Loads'),
+  ];
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Center(
+      child: Text('Current Loads'),
+    ),
+    Center(
+      child: Text('Delivered Loads'),
+    ),
+    Center(
+      child: Text('Invoiced Loads'),
+    ),
+    Center(
+      child: Text('Paid Loads'),
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Loads'),
+        title: _titleOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Current',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Delivered',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Invoiced',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Paid',
+          ),
+        ],
       ),
       drawer: AppDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Loads here',
-            ),
-          ],
-        ),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ExtendedNavigator.root.push(Routes.loadForm);
