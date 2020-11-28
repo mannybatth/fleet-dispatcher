@@ -1,7 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/routes/routes.gr.dart';
+import 'package:fleet_dispatcher/screens/loads/widgets/loads_list.dart';
+import 'package:fleet_dispatcher/services/load_service.dart';
+import 'package:fleet_dispatcher/stores/loads_store.dart';
 import 'package:fleet_dispatcher/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class LoadsScreen extends StatefulWidget {
   @override
@@ -10,28 +15,19 @@ class LoadsScreen extends StatefulWidget {
 
 class _LoadsScreenState extends State<LoadsScreen> {
   int _selectedIndex = 0;
+  LoadsStore store;
 
-  static const List<Widget> _titleOptions = <Widget>[
+  final List<Widget> _titleOptions = <Widget>[
     Text('Current Loads'),
     Text('Delivered Loads'),
     Text('Invoiced Loads'),
     Text('Paid Loads'),
   ];
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Center(
-      child: Text('Current Loads'),
-    ),
-    Center(
-      child: Text('Delivered Loads'),
-    ),
-    Center(
-      child: Text('Invoiced Loads'),
-    ),
-    Center(
-      child: Text('Paid Loads'),
-    ),
-  ];
+  void initState() {
+    super.initState();
+    LoadService.getLoads(context);
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,6 +37,8 @@ class _LoadsScreenState extends State<LoadsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    store = Provider.of<LoadsStore>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: _titleOptions.elementAt(_selectedIndex),
@@ -69,7 +67,14 @@ class _LoadsScreenState extends State<LoadsScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: Observer(
+        builder: (_) => [
+          LoadsList(loads: store.currentLoads),
+          LoadsList(loads: store.deliveredLoads),
+          LoadsList(loads: store.invoicedLoads),
+          LoadsList(loads: store.paidLoads),
+        ].elementAt(_selectedIndex),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ExtendedNavigator.root.push(Routes.loadForm);

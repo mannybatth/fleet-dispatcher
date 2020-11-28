@@ -34,10 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (auth.currentUser != null) {
       print('USER FOUND ${auth.currentUser.uid}');
       ExtendedNavigator.root.replace(Routes.dashboardScreen);
+    } else {
+      setState(() {
+        _loading = false;
+      });
     }
-    setState(() {
-      _loading = false;
-    });
   }
 
   @override

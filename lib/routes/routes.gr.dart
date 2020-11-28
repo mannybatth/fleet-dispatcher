@@ -13,7 +13,7 @@ import '../screens/company/company_screen.dart';
 import '../screens/customers/customers_screen.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 import '../screens/drivers/drivers_screen.dart';
-import '../screens/loads/forms/load_form.dart';
+import '../screens/loads/load_form.dart';
 import '../screens/loads/loads_screen.dart';
 import '../screens/login/login_screen.dart';
 import 'auth_guard.dart';

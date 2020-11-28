@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/routes/auth_guard.dart';
 import 'package:fleet_dispatcher/routes/routes.gr.dart';
+import 'package:fleet_dispatcher/services/load_service.dart';
+import 'package:fleet_dispatcher/stores/customers_store.dart';
+import 'package:fleet_dispatcher/stores/loads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 
 void main() {
@@ -42,9 +46,12 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    Widget getAppContent() {
-      if (_error) {
-        return Material(
+    if (_error) {
+      return Theme(
+        data: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        child: Material(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,14 +71,30 @@ class _MainAppState extends State<MainApp> {
               ],
             ),
           ),
-        );
-      }
+        ),
+      );
+    }
 
-      if (!_initialized) {
-        return Material(child: Center(child: CircularProgressIndicator()));
-      }
+    if (!_initialized) {
+      return Theme(
+        data: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        child: Material(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
 
-      return MaterialApp(
+    return MultiProvider(
+      providers: [
+        Provider<LoadsStore>(create: (_) => LoadsStore()),
+        Provider<CustomersStore>(create: (_) => CustomersStore()),
+        Provider<LoadService>(create: (_) => LoadService()),
+      ],
+      child: MaterialApp(
         title: 'Fleet Dispatcher',
         theme: ThemeData(),
         debugShowCheckedModeBanner: false,
@@ -91,9 +114,7 @@ class _MainAppState extends State<MainApp> {
             child: extendedNav,
           ),
         ),
-      );
-    }
-
-    return getAppContent();
+      ),
+    );
   }
 }
