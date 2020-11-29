@@ -33,25 +33,26 @@ class Load {
   @JsonKey(ignore: true)
   Customer customer;
 
-  Load(
-      this.id,
-      this.userId,
-      this.status,
-      this.invoiceId,
-      this.customerId,
-      this.shipper,
-      this.pickUpLocation,
-      this.pickUpDate,
-      this.consignee,
-      this.deliveryLocation,
-      this.deliveryDate,
-      this.poNum,
-      this.loadNum,
-      this.refNum,
-      this.orderNum,
-      this.rate,
-      this.contacts,
-      this.conversions);
+  Load({
+    this.id,
+    this.userId,
+    this.status,
+    this.invoiceId,
+    this.customerId,
+    this.shipper,
+    this.pickUpLocation,
+    this.pickUpDate,
+    this.consignee,
+    this.deliveryLocation,
+    this.deliveryDate,
+    this.poNum,
+    this.loadNum,
+    this.refNum,
+    this.orderNum,
+    this.rate,
+    this.contacts,
+    this.conversions,
+  });
 
   factory Load.fromJson(String id, Map<String, dynamic> json) =>
       _$LoadFromJson(json)..id = id;

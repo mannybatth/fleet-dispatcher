@@ -4,20 +4,30 @@ part 'customer.g.dart';
 
 @JsonSerializable()
 class Customer {
-  final String id;
-  final String userId;
-  final String companyId;
-  final String title;
-  final String address;
-  final String city;
-  final String state;
-  final String zipCode;
-  final String phone;
-  final String billingEmail;
-  Customer(this.id, this.userId, this.companyId, this.title, this.address,
-      this.city, this.state, this.zipCode, this.phone, this.billingEmail);
+  String id;
+  String userId;
+  String companyId;
+  String title;
+  String address;
+  String city;
+  String state;
+  String zipCode;
+  String phone;
+  String invoiceEmail;
+  Customer({
+    this.id,
+    this.userId,
+    this.companyId,
+    this.title,
+    this.address,
+    this.city,
+    this.state,
+    this.zipCode,
+    this.phone,
+    this.invoiceEmail,
+  });
 
-  factory Customer.fromJson(Map<String, dynamic> json) =>
-      _$CustomerFromJson(json);
+  factory Customer.fromJson(String id, Map<String, dynamic> json) =>
+      _$CustomerFromJson(json)..id = id;
   Map<String, dynamic> toJson() => _$CustomerToJson(this);
 }

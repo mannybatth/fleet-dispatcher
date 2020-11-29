@@ -92,7 +92,6 @@ class _MainAppState extends State<MainApp> {
       providers: [
         Provider<LoadsStore>(create: (_) => LoadsStore()),
         Provider<CustomersStore>(create: (_) => CustomersStore()),
-        Provider<LoadService>(create: (_) => LoadService()),
       ],
       child: MaterialApp(
         title: 'Fleet Dispatcher',
@@ -109,6 +108,26 @@ class _MainAppState extends State<MainApp> {
                 buttonColor: Colors.blue,
                 textTheme: ButtonTextTheme.primary,
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+              ),
+              inputDecorationTheme: InputDecorationTheme(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1.0),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 1.0),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade800,
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
             child: extendedNav,

@@ -8,31 +8,32 @@ part of 'load.dart';
 
 Load _$LoadFromJson(Map<String, dynamic> json) {
   return Load(
-    json['id'] as String,
-    json['userId'] as String,
-    _$enumDecodeNullable(_$LoadStatusEnumMap, json['status']),
-    json['invoiceId'] as String,
-    json['customerId'] as String,
-    json['shipper'] as String,
-    json['pickUpLocation'] as String,
-    json['pickUpDate'] == null
+    id: json['id'] as String,
+    userId: json['userId'] as String,
+    status: _$enumDecodeNullable(_$LoadStatusEnumMap, json['status']),
+    invoiceId: json['invoiceId'] as String,
+    customerId: json['customerId'] as String,
+    shipper: json['shipper'] as String,
+    pickUpLocation: json['pickUpLocation'] as String,
+    pickUpDate: json['pickUpDate'] == null
         ? null
         : DateTime.parse(json['pickUpDate'] as String),
-    json['consignee'] as String,
-    json['deliveryLocation'] as String,
-    json['deliveryDate'] == null
+    consignee: json['consignee'] as String,
+    deliveryLocation: json['deliveryLocation'] as String,
+    deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
-    json['poNum'] as String,
-    json['loadNum'] as String,
-    json['refNum'] as String,
-    json['orderNum'] as String,
-    json['rate'] as int,
-    (json['contacts'] as List)
+    poNum: json['poNum'] as String,
+    loadNum: json['loadNum'] as String,
+    refNum: json['refNum'] as String,
+    orderNum: json['orderNum'] as String,
+    rate: json['rate'] as int,
+    contacts: (json['contacts'] as List)
         ?.map((e) =>
             e == null ? null : LoadContact.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    (json['conversions'] as List)?.map((e) => e as String)?.toList(),
+    conversions:
+        (json['conversions'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 

@@ -8,18 +8,20 @@ part of 'invoice.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
-    json['id'] as String,
-    json['userId'] as String,
-    json['invoiceNum'] as int,
-    json['loadId'] as String,
-    json['sentDate'] == null
+    id: json['id'] as String,
+    userId: json['userId'] as String,
+    invoiceNum: json['invoiceNum'] as int,
+    loadId: json['loadId'] as String,
+    sentDate: json['sentDate'] == null
         ? null
         : DateTime.parse(json['sentDate'] as String),
-    json['dueDate'] == null ? null : DateTime.parse(json['dueDate'] as String),
-    json['totalDue'] as int,
-    json['paidAmount'] as int,
-    json['itemName'] as String,
-    (json['extraItems'] as List)
+    dueDate: json['dueDate'] == null
+        ? null
+        : DateTime.parse(json['dueDate'] as String),
+    totalDue: json['totalDue'] as int,
+    paidAmount: json['paidAmount'] as int,
+    itemName: json['itemName'] as String,
+    extraItems: (json['extraItems'] as List)
         ?.map((e) =>
             e == null ? null : InvoiceItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),

@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoadService {
-  static void getLoads(BuildContext context) async {
-    print('GETTING LOADS');
+  static Future<void> getLoads(BuildContext context) async {
     LoadsStore store = context.read<LoadsStore>();
     final QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('loads').get();

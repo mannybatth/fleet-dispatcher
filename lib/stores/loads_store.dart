@@ -7,7 +7,7 @@ class LoadsStore = _LoadsStore with _$LoadsStore;
 
 abstract class _LoadsStore with Store {
   @observable
-  List<Load> loads = [];
+  ObservableList<Load> loads = ObservableList<Load>();
 
   @computed
   List<Load> get currentLoads =>
@@ -28,7 +28,7 @@ abstract class _LoadsStore with Store {
 
   @action
   void saveLoads(List<Load> loads) {
-    this.loads = loads;
+    this.loads = ObservableList<Load>.of(loads);
   }
 
   @action

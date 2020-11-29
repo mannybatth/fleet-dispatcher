@@ -8,16 +8,16 @@ part of 'customer.dart';
 
 Customer _$CustomerFromJson(Map<String, dynamic> json) {
   return Customer(
-    json['id'] as String,
-    json['userId'] as String,
-    json['companyId'] as String,
-    json['title'] as String,
-    json['address'] as String,
-    json['city'] as String,
-    json['state'] as String,
-    json['zipCode'] as String,
-    json['phone'] as String,
-    json['billingEmail'] as String,
+    id: json['id'] as String,
+    userId: json['userId'] as String,
+    companyId: json['companyId'] as String,
+    title: json['title'] as String,
+    address: json['address'] as String,
+    city: json['city'] as String,
+    state: json['state'] as String,
+    zipCode: json['zipCode'] as String,
+    phone: json['phone'] as String,
+    invoiceEmail: json['invoiceEmail'] as String,
   );
 }
 
@@ -31,5 +31,5 @@ Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'state': instance.state,
       'zipCode': instance.zipCode,
       'phone': instance.phone,
-      'billingEmail': instance.billingEmail,
+      'invoiceEmail': instance.invoiceEmail,
     };

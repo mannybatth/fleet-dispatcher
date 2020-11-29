@@ -5,5 +5,10 @@ class Payment {
   final String invoiceId;
   final int amount;
   final DateTime receivedDate;
-  Payment(this.id, this.invoiceId, this.amount, this.receivedDate);
+  Payment({
+    this.id,
+    this.invoiceId,
+    this.amount,
+    this.receivedDate,
+  });
 }

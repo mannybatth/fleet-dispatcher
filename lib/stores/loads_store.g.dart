@@ -41,13 +41,13 @@ mixin _$LoadsStore on _LoadsStore, Store {
   final _$loadsAtom = Atom(name: '_LoadsStore.loads');
 
   @override
-  List<Load> get loads {
+  ObservableList<Load> get loads {
     _$loadsAtom.reportRead();
     return super.loads;
   }
 
   @override
-  set loads(List<Load> value) {
+  set loads(ObservableList<Load> value) {
     _$loadsAtom.reportWrite(value, super.loads, () {
       super.loads = value;
     });
