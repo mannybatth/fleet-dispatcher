@@ -37,6 +37,17 @@ class _CompanyFormState extends State<CompanyForm> {
     }
   }
 
+  void dispose() {
+    _titleController.dispose();
+    _emailController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _zipCodeController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
   void onActionClick() async {
     if (_formKey.currentState.validate()) {
       setState(() {

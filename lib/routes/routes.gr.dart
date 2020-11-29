@@ -22,6 +22,7 @@ import '../screens/dashboard/dashboard_screen.dart';
 import '../screens/drivers/driver_detail_screen.dart';
 import '../screens/drivers/driver_form.dart';
 import '../screens/drivers/drivers_screen.dart';
+import '../screens/loads/load_detail_screen.dart';
 import '../screens/loads/load_form.dart';
 import '../screens/loads/loads_screen.dart';
 import '../screens/login/login_screen.dart';
@@ -30,6 +31,7 @@ import 'auth_guard.dart';
 class Routes {
   static const String dashboardScreen = '/';
   static const String loadsScreen = '/loads-screen';
+  static const String loadDetailScreen = '/load-detail-screen';
   static const String loadForm = '/load-form';
   static const String customersScreen = '/customers-screen';
   static const String customerDetailScreen = '/customer-detail-screen';
@@ -43,6 +45,7 @@ class Routes {
   static const all = <String>{
     dashboardScreen,
     loadsScreen,
+    loadDetailScreen,
     loadForm,
     customersScreen,
     customerDetailScreen,
@@ -63,6 +66,8 @@ class AppRouter extends RouterBase {
     RouteDef(Routes.dashboardScreen,
         page: DashboardScreen, guards: [AuthGuard]),
     RouteDef(Routes.loadsScreen, page: LoadsScreen, guards: [AuthGuard]),
+    RouteDef(Routes.loadDetailScreen,
+        page: LoadDetailScreen, guards: [AuthGuard]),
     RouteDef(Routes.loadForm, page: LoadForm),
     RouteDef(Routes.customersScreen,
         page: CustomersScreen, guards: [AuthGuard]),
@@ -95,12 +100,27 @@ class AppRouter extends RouterBase {
         transitionsBuilder: TransitionsBuilders.fadeIn,
       );
     },
+    LoadDetailScreen: (data) {
+      final args = data.getArgs<LoadDetailScreenArguments>(
+        orElse: () => LoadDetailScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LoadDetailScreen(
+          key: args.key,
+          loadId: args.loadId,
+        ),
+        settings: data,
+      );
+    },
     LoadForm: (data) {
       final args = data.getArgs<LoadFormArguments>(
         orElse: () => LoadFormArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => LoadForm(load: args.load),
+        builder: (context) => LoadForm(
+          key: args.key,
+          load: args.load,
+        ),
         settings: data,
         fullscreenDialog: true,
       );
@@ -206,10 +226,18 @@ class AppRouter extends RouterBase {
 /// Arguments holder classes
 /// *************************************************************************
 
+/// LoadDetailScreen arguments holder class
+class LoadDetailScreenArguments {
+  final Key key;
+  final String loadId;
+  LoadDetailScreenArguments({this.key, this.loadId});
+}
+
 /// LoadForm arguments holder class
 class LoadFormArguments {
+  final Key key;
   final Load load;
-  LoadFormArguments({this.load});
+  LoadFormArguments({this.key, this.load});
 }
 
 /// CustomerDetailScreen arguments holder class

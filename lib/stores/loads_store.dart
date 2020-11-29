@@ -7,32 +7,40 @@ class LoadsStore = _LoadsStore with _$LoadsStore;
 
 abstract class _LoadsStore with Store {
   @observable
-  ObservableList<Load> loads = ObservableList<Load>();
+  ObservableMap<String, Load> loads = ObservableMap<String, Load>();
+
+  @computed
+  List<Load> get loadsList => loads.values.toList();
 
   @computed
   List<Load> get currentLoads =>
-      loads.where((load) => load.status == LoadStatus.NONE).toList();
+      loadsList.where((load) => load.status == LoadStatus.NONE).toList();
 
   @computed
   List<Load> get deliveredLoads =>
-      loads.where((load) => load.status == LoadStatus.DELIVERED).toList();
+      loadsList.where((load) => load.status == LoadStatus.DELIVERED).toList();
 
   @computed
   List<Load> get invoicedLoads =>
-      loads.where((load) => load.status == LoadStatus.INVOICED).toList();
+      loadsList.where((load) => load.status == LoadStatus.INVOICED).toList();
 
   @computed
-  List<Load> get paidLoads => loads
+  List<Load> get paidLoads => loadsList
       .where((load) => load.status == LoadStatus.PAYMENT_RECEIVED)
       .toList();
 
   @action
   void saveLoads(List<Load> loads) {
-    this.loads = ObservableList<Load>.of(loads);
+    final driversMap = Map<String, Load>.fromIterable(
+      loads,
+      key: (item) => item.id,
+      value: (item) => item,
+    );
+    this.loads = ObservableMap<String, Load>.of(driversMap);
   }
 
   @action
   void addLoad(Load load) {
-    this.loads.insert(0, load);
+    this.loads[load.id] = load;
   }
 }

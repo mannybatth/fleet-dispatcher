@@ -33,6 +33,15 @@ class _DriverFormState extends State<DriverForm> {
     }
   }
 
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneController.dispose();
+    _truckNumController.dispose();
+    _trailerNumController.dispose();
+    super.dispose();
+  }
+
   void onActionClick() async {
     if (_formKey.currentState.validate()) {
       setState(() {

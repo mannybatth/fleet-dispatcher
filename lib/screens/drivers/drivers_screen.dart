@@ -4,6 +4,7 @@ import 'package:fleet_dispatcher/services/driver_service.dart';
 import 'package:fleet_dispatcher/stores/drivers_store.dart';
 import 'package:fleet_dispatcher/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,7 @@ class _DriversScreenState extends State<DriversScreen> {
                 );
               },
               child: ListTile(
+                mouseCursor: SystemMouseCursors.click,
                 title: Text('${driver.firstName} ${driver.lastName}'),
                 subtitle: Text(driver.phone),
               ),

@@ -37,6 +37,17 @@ class _CustomerFormState extends State<CustomerForm> {
     }
   }
 
+  void dispose() {
+    _titleController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _zipCodeController.dispose();
+    _phoneController.dispose();
+    _invoiceEmailController.dispose();
+    super.dispose();
+  }
+
   void onActionClick() async {
     if (_formKey.currentState.validate()) {
       setState(() {

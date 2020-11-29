@@ -9,6 +9,13 @@ part of 'loads_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoadsStore on _LoadsStore, Store {
+  Computed<List<Load>> _$loadsListComputed;
+
+  @override
+  List<Load> get loadsList =>
+      (_$loadsListComputed ??= Computed<List<Load>>(() => super.loadsList,
+              name: '_LoadsStore.loadsList'))
+          .value;
   Computed<List<Load>> _$currentLoadsComputed;
 
   @override
@@ -41,13 +48,13 @@ mixin _$LoadsStore on _LoadsStore, Store {
   final _$loadsAtom = Atom(name: '_LoadsStore.loads');
 
   @override
-  ObservableList<Load> get loads {
+  ObservableMap<String, Load> get loads {
     _$loadsAtom.reportRead();
     return super.loads;
   }
 
   @override
-  set loads(ObservableList<Load> value) {
+  set loads(ObservableMap<String, Load> value) {
     _$loadsAtom.reportWrite(value, super.loads, () {
       super.loads = value;
     });
@@ -81,6 +88,7 @@ mixin _$LoadsStore on _LoadsStore, Store {
   String toString() {
     return '''
 loads: ${loads},
+loadsList: ${loadsList},
 currentLoads: ${currentLoads},
 deliveredLoads: ${deliveredLoads},
 invoicedLoads: ${invoicedLoads},
