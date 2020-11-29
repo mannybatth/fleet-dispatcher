@@ -6,7 +6,6 @@ part 'customer.g.dart';
 class Customer {
   String id;
   String userId;
-  String companyId;
   String title;
   String address;
   String city;
@@ -17,7 +16,6 @@ class Customer {
   Customer({
     this.id,
     this.userId,
-    this.companyId,
     this.title,
     this.address,
     this.city,

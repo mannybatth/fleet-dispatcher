@@ -1,14 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'payment.g.dart';
+
+@JsonSerializable()
 class Payment {
-  final String id;
-  final String invoiceId;
-  final int amount;
-  final DateTime receivedDate;
+  String id;
+  String invoiceId;
+  int amount;
+  DateTime receivedDate;
   Payment({
     this.id,
     this.invoiceId,
     this.amount,
     this.receivedDate,
   });
+
+  factory Payment.fromJson(String id, Map<String, dynamic> json) =>
+      _$PaymentFromJson(json)..id = id;
+  Map<String, dynamic> toJson() => _$PaymentToJson(this);
 }

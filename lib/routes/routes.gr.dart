@@ -9,13 +9,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../models/company.dart';
 import '../models/customer.dart';
+import '../models/driver.dart';
 import '../models/load.dart';
+import '../screens/company/company_form.dart';
 import '../screens/company/company_screen.dart';
 import '../screens/customers/customer_detail_screen.dart';
 import '../screens/customers/customer_form.dart';
 import '../screens/customers/customers_screen.dart';
 import '../screens/dashboard/dashboard_screen.dart';
+import '../screens/drivers/driver_detail_screen.dart';
+import '../screens/drivers/driver_form.dart';
 import '../screens/drivers/drivers_screen.dart';
 import '../screens/loads/load_form.dart';
 import '../screens/loads/loads_screen.dart';
@@ -30,7 +35,10 @@ class Routes {
   static const String customerDetailScreen = '/customer-detail-screen';
   static const String customerForm = '/customer-form';
   static const String companyScreen = '/company-screen';
+  static const String companyForm = '/company-form';
   static const String driversScreen = '/drivers-screen';
+  static const String driverDetailScreen = '/driver-detail-screen';
+  static const String driverForm = '/driver-form';
   static const String loginScreen = '/login-screen';
   static const all = <String>{
     dashboardScreen,
@@ -40,7 +48,10 @@ class Routes {
     customerDetailScreen,
     customerForm,
     companyScreen,
+    companyForm,
     driversScreen,
+    driverDetailScreen,
+    driverForm,
     loginScreen,
   };
 }
@@ -59,7 +70,11 @@ class AppRouter extends RouterBase {
         page: CustomerDetailScreen, guards: [AuthGuard]),
     RouteDef(Routes.customerForm, page: CustomerForm),
     RouteDef(Routes.companyScreen, page: CompanyScreen, guards: [AuthGuard]),
+    RouteDef(Routes.companyForm, page: CompanyForm),
     RouteDef(Routes.driversScreen, page: DriversScreen, guards: [AuthGuard]),
+    RouteDef(Routes.driverDetailScreen,
+        page: DriverDetailScreen, guards: [AuthGuard]),
+    RouteDef(Routes.driverForm, page: DriverForm),
     RouteDef(Routes.loginScreen, page: LoginScreen),
   ];
   @override
@@ -131,12 +146,50 @@ class AppRouter extends RouterBase {
         transitionsBuilder: TransitionsBuilders.fadeIn,
       );
     },
+    CompanyForm: (data) {
+      final args = data.getArgs<CompanyFormArguments>(
+        orElse: () => CompanyFormArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CompanyForm(
+          key: args.key,
+          company: args.company,
+        ),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
     DriversScreen: (data) {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) =>
             DriversScreen(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.fadeIn,
+      );
+    },
+    DriverDetailScreen: (data) {
+      final args = data.getArgs<DriverDetailScreenArguments>(
+        orElse: () => DriverDetailScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DriverDetailScreen(
+          key: args.key,
+          driverId: args.driverId,
+        ),
+        settings: data,
+      );
+    },
+    DriverForm: (data) {
+      final args = data.getArgs<DriverFormArguments>(
+        orElse: () => DriverFormArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DriverForm(
+          key: args.key,
+          driver: args.driver,
+        ),
+        settings: data,
+        fullscreenDialog: true,
       );
     },
     LoginScreen: (data) {
@@ -171,4 +224,25 @@ class CustomerFormArguments {
   final Key key;
   final Customer customer;
   CustomerFormArguments({this.key, this.customer});
+}
+
+/// CompanyForm arguments holder class
+class CompanyFormArguments {
+  final Key key;
+  final Company company;
+  CompanyFormArguments({this.key, this.company});
+}
+
+/// DriverDetailScreen arguments holder class
+class DriverDetailScreenArguments {
+  final Key key;
+  final String driverId;
+  DriverDetailScreenArguments({this.key, this.driverId});
+}
+
+/// DriverForm arguments holder class
+class DriverFormArguments {
+  final Key key;
+  final Driver driver;
+  DriverFormArguments({this.key, this.driver});
 }

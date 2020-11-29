@@ -36,8 +36,38 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
       appBar: AppBar(
         title: Text(this.customer.title),
       ),
-      body: Center(
-        child: Text(this.customer.title),
+      body: ListView(
+        children: [
+          ListTile(
+            subtitle: Text('Title'),
+            title: Text(this.customer.title),
+          ),
+          ListTile(
+            subtitle: Text('Address'),
+            title: Text(this.customer.address),
+          ),
+          ListTile(
+            subtitle: Text('City'),
+            title: Text(this.customer.city),
+          ),
+          ListTile(
+            subtitle: Text('State'),
+            title: Text(this.customer.state),
+          ),
+          ListTile(
+            subtitle: Text('Zip Code'),
+            title: Text(this.customer.zipCode),
+          ),
+          ListTile(
+            subtitle: Text('Phone'),
+            title: Text(this.customer.phone),
+          ),
+          ListTile(
+            subtitle: Text('Invoice Email'),
+            title: Text(this.customer.invoiceEmail),
+          ),
+          SizedBox(height: 100)
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

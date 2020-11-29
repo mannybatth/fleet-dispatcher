@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/routes/auth_guard.dart';
 import 'package:fleet_dispatcher/routes/routes.gr.dart';
-import 'package:fleet_dispatcher/services/load_service.dart';
+import 'package:fleet_dispatcher/stores/company_store.dart';
 import 'package:fleet_dispatcher/stores/customers_store.dart';
+import 'package:fleet_dispatcher/stores/drivers_store.dart';
 import 'package:fleet_dispatcher/stores/loads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -92,6 +93,8 @@ class _MainAppState extends State<MainApp> {
       providers: [
         Provider<LoadsStore>(create: (_) => LoadsStore()),
         Provider<CustomersStore>(create: (_) => CustomersStore()),
+        Provider<DriversStore>(create: (_) => DriversStore()),
+        Provider<CompanyStore>(create: (_) => CompanyStore()),
       ],
       child: MaterialApp(
         title: 'Fleet Dispatcher',

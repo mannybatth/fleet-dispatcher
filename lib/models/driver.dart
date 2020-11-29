@@ -1,20 +1,27 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'driver.g.dart';
+
+@JsonSerializable()
 class Driver {
-  final String id;
-  final String userId;
-  final String companyId;
-  final String firstName;
-  final String lastName;
-  final String phone;
-  final String truckNum;
-  final String trailerNum;
+  String id;
+  String userId;
+  String firstName;
+  String lastName;
+  String phone;
+  String truckNum;
+  String trailerNum;
   Driver({
     this.id,
     this.userId,
-    this.companyId,
     this.firstName,
     this.lastName,
     this.phone,
     this.trailerNum,
     this.truckNum,
   });
+
+  factory Driver.fromJson(String id, Map<String, dynamic> json) =>
+      _$DriverFromJson(json)..id = id;
+  Map<String, dynamic> toJson() => _$DriverToJson(this);
 }

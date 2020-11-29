@@ -1,39 +1,39 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fleet_dispatcher/models/customer.dart';
-import 'package:fleet_dispatcher/services/customer_service.dart';
+import 'package:fleet_dispatcher/models/company.dart';
+import 'package:fleet_dispatcher/services/company_service.dart';
 import 'package:flutter/material.dart';
 
-class CustomerForm extends StatefulWidget {
-  final Customer customer;
-  CustomerForm({Key key, this.customer}) : super(key: key);
+class CompanyForm extends StatefulWidget {
+  final Company company;
+  CompanyForm({Key key, this.company}) : super(key: key);
 
   @override
-  _CustomerFormState createState() => _CustomerFormState();
+  _CompanyFormState createState() => _CompanyFormState();
 }
 
-class _CustomerFormState extends State<CustomerForm> {
+class _CompanyFormState extends State<CompanyForm> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
 
   final _titleController = TextEditingController();
+  final _emailController = TextEditingController();
   final _addressController = TextEditingController();
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
   final _zipCodeController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _invoiceEmailController = TextEditingController();
 
   void initState() {
     super.initState();
 
-    if (widget.customer != null) {
-      _titleController.text = widget.customer.title;
-      _addressController.text = widget.customer.address;
-      _cityController.text = widget.customer.city;
-      _stateController.text = widget.customer.state;
-      _zipCodeController.text = widget.customer.zipCode;
-      _phoneController.text = widget.customer.phone;
-      _invoiceEmailController.text = widget.customer.invoiceEmail;
+    if (widget.company != null) {
+      _titleController.text = widget.company.title;
+      _emailController.text = widget.company.email;
+      _addressController.text = widget.company.address;
+      _cityController.text = widget.company.city;
+      _stateController.text = widget.company.state;
+      _zipCodeController.text = widget.company.zipCode;
+      _phoneController.text = widget.company.phone;
     }
   }
 
@@ -43,28 +43,17 @@ class _CustomerFormState extends State<CustomerForm> {
         _loading = true;
       });
 
-      Customer customer = Customer(
+      Company company = Company(
         title: _titleController.text.trim(),
+        email: _emailController.text.trim(),
         address: _addressController.text.trim(),
         city: _cityController.text.trim(),
         state: _stateController.text.trim(),
         zipCode: _zipCodeController.text.trim(),
         phone: _phoneController.text.trim(),
-        invoiceEmail: _invoiceEmailController.text.trim(),
       );
 
-      if (widget.customer != null) {
-        await CustomerService.updateCustomer(
-          context,
-          widget.customer.id,
-          customer,
-        );
-      } else {
-        await CustomerService.createCustomer(
-          context,
-          customer,
-        );
-      }
+      await CompanyService.updateCompany(context, company);
 
       ExtendedNavigator.root.pop();
 
@@ -79,7 +68,7 @@ class _CustomerFormState extends State<CustomerForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          this.widget.customer != null ? 'Edit Customer' : 'New Customer',
+          'Edit Company',
         ),
         actions: [
           Padding(
@@ -96,7 +85,7 @@ class _CustomerFormState extends State<CustomerForm> {
                     ),
                   )
                 : TextButton(
-                    child: Text(this.widget.customer != null ? 'SAVE' : 'ADD'),
+                    child: Text('SAVE'),
                     onPressed: onActionClick,
                   ),
           ),
@@ -122,6 +111,13 @@ class _CustomerFormState extends State<CustomerForm> {
                     }
                     return null;
                   },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
                 ),
                 SizedBox(height: 10),
                 TextFormField(
@@ -156,13 +152,6 @@ class _CustomerFormState extends State<CustomerForm> {
                   controller: _phoneController,
                   decoration: InputDecoration(
                     labelText: 'Phone',
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: _invoiceEmailController,
-                  decoration: InputDecoration(
-                    labelText: 'Invoice Email',
                   ),
                 ),
               ],
