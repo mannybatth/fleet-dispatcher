@@ -33,16 +33,17 @@ class _DriversScreenState extends State<DriversScreen> {
         builder: (_) => ListView.builder(
           itemCount: store.driversList.length,
           itemBuilder: (context, index) {
+            final driver = store.driversList[index];
             return InkWell(
               onTap: () {
                 ExtendedNavigator.root.push(
                   Routes.driverDetailScreen,
-                  arguments: DriverDetailScreenArguments(
-                      driverId: store.driversList[index].id),
+                  arguments: DriverDetailScreenArguments(driverId: driver.id),
                 );
               },
               child: ListTile(
-                title: Text(store.driversList[index].firstName),
+                title: Text('${driver.firstName} ${driver.lastName}'),
+                subtitle: Text(driver.phone),
               ),
             );
           },

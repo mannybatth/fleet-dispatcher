@@ -43,23 +43,32 @@ class _CustomerFormState extends State<CustomerForm> {
         _loading = true;
       });
 
-      Customer customer = Customer(
-        title: _titleController.text.trim(),
-        address: _addressController.text.trim(),
-        city: _cityController.text.trim(),
-        state: _stateController.text.trim(),
-        zipCode: _zipCodeController.text.trim(),
-        phone: _phoneController.text.trim(),
-        invoiceEmail: _invoiceEmailController.text.trim(),
-      );
+      Map<String, String> form = {
+        "title": _titleController.text.trim(),
+        "address": _addressController.text.trim(),
+        "city": _cityController.text.trim(),
+        "state": _stateController.text.trim(),
+        "zipCode": _zipCodeController.text.trim(),
+        "phone": _phoneController.text.trim(),
+        "invoiceEmail": _invoiceEmailController.text.trim()
+      };
 
       if (widget.customer != null) {
+        Map<String, String> customerJson = {
+          ...widget.customer.toJson(),
+          ...form,
+        };
+
+        Customer customer = Customer.fromJson(widget.customer.id, customerJson);
+
         await CustomerService.updateCustomer(
           context,
           widget.customer.id,
           customer,
         );
       } else {
+        Customer customer = Customer.fromJson(null, form);
+
         await CustomerService.createCustomer(
           context,
           customer,

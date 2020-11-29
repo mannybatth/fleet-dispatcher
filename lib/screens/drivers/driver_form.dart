@@ -39,21 +39,30 @@ class _DriverFormState extends State<DriverForm> {
         _loading = true;
       });
 
-      Driver driver = Driver(
-        firstName: _firstNameController.text.trim(),
-        lastName: _lastNameController.text.trim(),
-        phone: _phoneController.text.trim(),
-        truckNum: _truckNumController.text.trim(),
-        trailerNum: _trailerNumController.text.trim(),
-      );
+      Map<String, String> form = {
+        "firstName": _firstNameController.text.trim(),
+        "lastName": _lastNameController.text.trim(),
+        "phone": _phoneController.text.trim(),
+        "truckNum": _truckNumController.text.trim(),
+        "trailerNum": _trailerNumController.text.trim(),
+      };
 
       if (widget.driver != null) {
+        Map<String, String> driverJson = {
+          ...widget.driver.toJson(),
+          ...form,
+        };
+
+        Driver driver = Driver.fromJson(widget.driver.id, driverJson);
+
         await DriverService.updateDriver(
           context,
           widget.driver.id,
           driver,
         );
       } else {
+        Driver driver = Driver.fromJson(null, form);
+
         await DriverService.createDriver(
           context,
           driver,

@@ -4,6 +4,7 @@ part 'driver.g.dart';
 
 @JsonSerializable()
 class Driver {
+  @JsonKey(ignore: true)
   String id;
   String userId;
   String firstName;

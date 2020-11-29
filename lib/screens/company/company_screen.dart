@@ -60,6 +60,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
               subtitle: Text('Phone'),
               title: Text(this.store.company?.phone ?? ''),
             ),
+            SizedBox(height: 100)
           ],
         ),
       ),

@@ -4,6 +4,7 @@ part 'invoice.g.dart';
 
 @JsonSerializable()
 class Invoice {
+  @JsonKey(ignore: true)
   String id;
   String userId;
   int invoiceNum;

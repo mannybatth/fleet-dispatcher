@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/stores/customers_store.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class CustomerService {
     Customer customer,
   ) async {
     CustomersStore store = context.read<CustomersStore>();
+    customer.userId = FirebaseAuth.instance.currentUser.uid;
     final customerJson = customer.toJson();
 
     final docRef = await FirebaseFirestore.instance

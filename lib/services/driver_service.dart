@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:fleet_dispatcher/stores/drivers_store.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class DriverService {
     Driver driver,
   ) async {
     DriversStore store = context.read<DriversStore>();
+    driver.userId = FirebaseAuth.instance.currentUser.uid;
     final driverJson = driver.toJson();
 
     final docRef =

@@ -8,7 +8,6 @@ part of 'load.dart';
 
 Load _$LoadFromJson(Map<String, dynamic> json) {
   return Load(
-    id: json['id'] as String,
     userId: json['userId'] as String,
     status: _$enumDecodeNullable(_$LoadStatusEnumMap, json['status']),
     invoiceId: json['invoiceId'] as String,
@@ -38,7 +37,6 @@ Load _$LoadFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LoadToJson(Load instance) => <String, dynamic>{
-      'id': instance.id,
       'userId': instance.userId,
       'status': _$LoadStatusEnumMap[instance.status],
       'invoiceId': instance.invoiceId,

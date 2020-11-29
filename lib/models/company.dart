@@ -4,6 +4,7 @@ part 'company.g.dart';
 
 @JsonSerializable()
 class Company {
+  @JsonKey(ignore: true)
   String id;
   String title;
   String email;

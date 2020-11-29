@@ -8,6 +8,7 @@ enum LoadStatus { NONE, DELIVERED, INVOICED, PAYMENT_RECEIVED }
 
 @JsonSerializable()
 class Load {
+  @JsonKey(ignore: true)
   String id;
   String userId;
   LoadStatus status;

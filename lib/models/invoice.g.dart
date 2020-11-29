@@ -8,7 +8,6 @@ part of 'invoice.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
-    id: json['id'] as String,
     userId: json['userId'] as String,
     invoiceNum: json['invoiceNum'] as int,
     loadId: json['loadId'] as String,
@@ -29,7 +28,6 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$InvoiceToJson(Invoice instance) => <String, dynamic>{
-      'id': instance.id,
       'userId': instance.userId,
       'invoiceNum': instance.invoiceNum,
       'loadId': instance.loadId,
