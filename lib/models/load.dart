@@ -1,3 +1,4 @@
+import 'package:fleet_dispatcher/models/address.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/models/invoice.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -6,7 +7,7 @@ part 'load.g.dart';
 
 enum LoadStatus { NONE, DELIVERED, INVOICED, PAYMENT_RECEIVED }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Load {
   @JsonKey(ignore: true)
   String id;
@@ -15,10 +16,10 @@ class Load {
   String invoiceId;
   String customerId;
   String shipper;
-  String pickUpLocation;
+  Address pickUpLocation;
   DateTime pickUpDate;
   String consignee;
-  String deliveryLocation;
+  Address deliveryLocation;
   DateTime deliveryDate;
   String poNum;
   String loadNum;

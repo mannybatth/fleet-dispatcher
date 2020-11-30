@@ -1,17 +1,15 @@
+import 'package:fleet_dispatcher/models/address.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'company.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Company {
   @JsonKey(ignore: true)
   String id;
   String title;
   String email;
-  String address;
-  String city;
-  String state;
-  String zipCode;
+  Address address;
   String phone;
   int lastInvoiceNum;
   Company({
@@ -19,9 +17,6 @@ class Company {
     this.title,
     this.email,
     this.address,
-    this.city,
-    this.state,
-    this.zipCode,
     this.phone,
     this.lastInvoiceNum,
   });

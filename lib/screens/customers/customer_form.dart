@@ -16,7 +16,7 @@ class _CustomerFormState extends State<CustomerForm> {
   bool _loading = false;
 
   final _titleController = TextEditingController();
-  final _addressController = TextEditingController();
+  final _streetController = TextEditingController();
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
   final _zipCodeController = TextEditingController();
@@ -28,10 +28,10 @@ class _CustomerFormState extends State<CustomerForm> {
 
     if (widget.customer != null) {
       _titleController.text = widget.customer.title;
-      _addressController.text = widget.customer.address;
-      _cityController.text = widget.customer.city;
-      _stateController.text = widget.customer.state;
-      _zipCodeController.text = widget.customer.zipCode;
+      _streetController.text = widget.customer.address.street;
+      _cityController.text = widget.customer.address.city;
+      _stateController.text = widget.customer.address.state;
+      _zipCodeController.text = widget.customer.address.zipCode;
       _phoneController.text = widget.customer.phone;
       _invoiceEmailController.text = widget.customer.invoiceEmail;
     }
@@ -39,7 +39,7 @@ class _CustomerFormState extends State<CustomerForm> {
 
   void dispose() {
     _titleController.dispose();
-    _addressController.dispose();
+    _streetController.dispose();
     _cityController.dispose();
     _stateController.dispose();
     _zipCodeController.dispose();
@@ -54,18 +54,20 @@ class _CustomerFormState extends State<CustomerForm> {
         _loading = true;
       });
 
-      Map<String, String> form = {
+      Map<String, dynamic> form = {
         "title": _titleController.text.trim(),
-        "address": _addressController.text.trim(),
-        "city": _cityController.text.trim(),
-        "state": _stateController.text.trim(),
-        "zipCode": _zipCodeController.text.trim(),
+        "address": {
+          "street": _streetController.text.trim(),
+          "city": _cityController.text.trim(),
+          "state": _stateController.text.trim(),
+          "zipCode": _zipCodeController.text.trim(),
+        },
         "phone": _phoneController.text.trim(),
         "invoiceEmail": _invoiceEmailController.text.trim()
       };
 
       if (widget.customer != null) {
-        Map<String, String> customerJson = {
+        Map<String, dynamic> customerJson = {
           ...widget.customer.toJson(),
           ...form,
         };
@@ -115,8 +117,9 @@ class _CustomerFormState extends State<CustomerForm> {
                       ),
                     ),
                   )
-                : TextButton(
-                    child: Text(this.widget.customer != null ? 'SAVE' : 'ADD'),
+                : IconButton(
+                    iconSize: 50,
+                    icon: Text(this.widget.customer != null ? 'SAVE' : 'ADD'),
                     onPressed: onActionClick,
                   ),
           ),
@@ -145,7 +148,7 @@ class _CustomerFormState extends State<CustomerForm> {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
-                  controller: _addressController,
+                  controller: _streetController,
                   decoration: InputDecoration(
                     labelText: 'Address',
                   ),

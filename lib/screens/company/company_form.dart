@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fleet_dispatcher/models/address.dart';
 import 'package:fleet_dispatcher/models/company.dart';
 import 'package:fleet_dispatcher/services/company_service.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _CompanyFormState extends State<CompanyForm> {
 
   final _titleController = TextEditingController();
   final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
+  final _streetController = TextEditingController();
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
   final _zipCodeController = TextEditingController();
@@ -29,10 +30,10 @@ class _CompanyFormState extends State<CompanyForm> {
     if (widget.company != null) {
       _titleController.text = widget.company.title;
       _emailController.text = widget.company.email;
-      _addressController.text = widget.company.address;
-      _cityController.text = widget.company.city;
-      _stateController.text = widget.company.state;
-      _zipCodeController.text = widget.company.zipCode;
+      _streetController.text = widget.company.address.street;
+      _cityController.text = widget.company.address.city;
+      _stateController.text = widget.company.address.state;
+      _zipCodeController.text = widget.company.address.zipCode;
       _phoneController.text = widget.company.phone;
     }
   }
@@ -40,7 +41,7 @@ class _CompanyFormState extends State<CompanyForm> {
   void dispose() {
     _titleController.dispose();
     _emailController.dispose();
-    _addressController.dispose();
+    _streetController.dispose();
     _cityController.dispose();
     _stateController.dispose();
     _zipCodeController.dispose();
@@ -57,10 +58,12 @@ class _CompanyFormState extends State<CompanyForm> {
       Company company = Company(
         title: _titleController.text.trim(),
         email: _emailController.text.trim(),
-        address: _addressController.text.trim(),
-        city: _cityController.text.trim(),
-        state: _stateController.text.trim(),
-        zipCode: _zipCodeController.text.trim(),
+        address: Address(
+          street: _streetController.text.trim(),
+          city: _cityController.text.trim(),
+          state: _stateController.text.trim(),
+          zipCode: _zipCodeController.text.trim(),
+        ),
         phone: _phoneController.text.trim(),
       );
 
@@ -95,8 +98,9 @@ class _CompanyFormState extends State<CompanyForm> {
                       ),
                     ),
                   )
-                : TextButton(
-                    child: Text('SAVE'),
+                : IconButton(
+                    iconSize: 50,
+                    icon: Text('SAVE'),
                     onPressed: onActionClick,
                   ),
           ),
@@ -132,7 +136,7 @@ class _CompanyFormState extends State<CompanyForm> {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
-                  controller: _addressController,
+                  controller: _streetController,
                   decoration: InputDecoration(
                     labelText: 'Address',
                   ),

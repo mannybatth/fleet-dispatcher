@@ -21,7 +21,9 @@ class CompanyService {
   }
 
   static Future<void> updateCompany(
-      BuildContext context, Company company) async {
+    BuildContext context,
+    Company company,
+  ) async {
     CompanyStore store = context.read<CompanyStore>();
     final userId = FirebaseAuth.instance.currentUser.uid;
     await FirebaseFirestore.instance

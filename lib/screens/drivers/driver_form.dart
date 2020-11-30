@@ -107,8 +107,11 @@ class _DriverFormState extends State<DriverForm> {
                       ),
                     ),
                   )
-                : TextButton(
-                    child: Text(this.widget.driver != null ? 'SAVE' : 'ADD'),
+                : IconButton(
+                    iconSize: 50,
+                    icon: Text(
+                      this.widget.driver != null ? 'SAVE' : 'ADD',
+                    ),
                     onPressed: onActionClick,
                   ),
           ),

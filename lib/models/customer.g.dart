@@ -10,10 +10,9 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) {
   return Customer(
     userId: json['userId'] as String,
     title: json['title'] as String,
-    address: json['address'] as String,
-    city: json['city'] as String,
-    state: json['state'] as String,
-    zipCode: json['zipCode'] as String,
+    address: json['address'] == null
+        ? null
+        : Address.fromJson(json['address'] as Map<String, dynamic>),
     phone: json['phone'] as String,
     invoiceEmail: json['invoiceEmail'] as String,
   );
@@ -22,10 +21,7 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'userId': instance.userId,
       'title': instance.title,
-      'address': instance.address,
-      'city': instance.city,
-      'state': instance.state,
-      'zipCode': instance.zipCode,
+      'address': instance.address?.toJson(),
       'phone': instance.phone,
       'invoiceEmail': instance.invoiceEmail,
     };

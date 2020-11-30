@@ -12,6 +12,11 @@ class Driver {
   String phone;
   String truckNum;
   String trailerNum;
+
+  String get fullName {
+    return '$firstName $lastName';
+  }
+
   Driver({
     this.id,
     this.userId,

@@ -42,19 +42,19 @@ class _CompanyScreenState extends State<CompanyScreen> {
             ),
             ListTile(
               subtitle: Text('Address'),
-              title: Text(this.store.company?.address ?? ''),
+              title: Text(this.store.company?.address?.street ?? ''),
             ),
             ListTile(
               subtitle: Text('City'),
-              title: Text(this.store.company?.city ?? ''),
+              title: Text(this.store.company?.address?.city ?? ''),
             ),
             ListTile(
               subtitle: Text('State'),
-              title: Text(this.store.company?.state ?? ''),
+              title: Text(this.store.company?.address?.state ?? ''),
             ),
             ListTile(
               subtitle: Text('Zip Code'),
-              title: Text(this.store.company?.zipCode ?? ''),
+              title: Text(this.store.company?.address?.zipCode ?? ''),
             ),
             ListTile(
               subtitle: Text('Phone'),

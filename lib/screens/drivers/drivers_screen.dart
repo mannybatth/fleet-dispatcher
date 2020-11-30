@@ -44,7 +44,7 @@ class _DriversScreenState extends State<DriversScreen> {
               },
               child: ListTile(
                 mouseCursor: SystemMouseCursors.click,
-                title: Text('${driver.firstName} ${driver.lastName}'),
+                title: Text(driver.fullName),
                 subtitle: Text(driver.phone),
               ),
             );

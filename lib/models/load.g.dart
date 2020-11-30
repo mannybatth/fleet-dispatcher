@@ -13,12 +13,16 @@ Load _$LoadFromJson(Map<String, dynamic> json) {
     invoiceId: json['invoiceId'] as String,
     customerId: json['customerId'] as String,
     shipper: json['shipper'] as String,
-    pickUpLocation: json['pickUpLocation'] as String,
+    pickUpLocation: json['pickUpLocation'] == null
+        ? null
+        : Address.fromJson(json['pickUpLocation'] as Map<String, dynamic>),
     pickUpDate: json['pickUpDate'] == null
         ? null
         : DateTime.parse(json['pickUpDate'] as String),
     consignee: json['consignee'] as String,
-    deliveryLocation: json['deliveryLocation'] as String,
+    deliveryLocation: json['deliveryLocation'] == null
+        ? null
+        : Address.fromJson(json['deliveryLocation'] as Map<String, dynamic>),
     deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
@@ -42,17 +46,17 @@ Map<String, dynamic> _$LoadToJson(Load instance) => <String, dynamic>{
       'invoiceId': instance.invoiceId,
       'customerId': instance.customerId,
       'shipper': instance.shipper,
-      'pickUpLocation': instance.pickUpLocation,
+      'pickUpLocation': instance.pickUpLocation?.toJson(),
       'pickUpDate': instance.pickUpDate?.toIso8601String(),
       'consignee': instance.consignee,
-      'deliveryLocation': instance.deliveryLocation,
+      'deliveryLocation': instance.deliveryLocation?.toJson(),
       'deliveryDate': instance.deliveryDate?.toIso8601String(),
       'poNum': instance.poNum,
       'loadNum': instance.loadNum,
       'refNum': instance.refNum,
       'orderNum': instance.orderNum,
       'rate': instance.rate,
-      'contacts': instance.contacts,
+      'contacts': instance.contacts?.map((e) => e?.toJson())?.toList(),
       'conversions': instance.conversions,
     };
 

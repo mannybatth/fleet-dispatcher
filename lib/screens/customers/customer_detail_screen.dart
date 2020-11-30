@@ -44,19 +44,19 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
           ),
           ListTile(
             subtitle: Text('Address'),
-            title: Text(this.customer.address),
+            title: Text(this.customer.address.street),
           ),
           ListTile(
             subtitle: Text('City'),
-            title: Text(this.customer.city),
+            title: Text(this.customer.address.city),
           ),
           ListTile(
             subtitle: Text('State'),
-            title: Text(this.customer.state),
+            title: Text(this.customer.address.state),
           ),
           ListTile(
             subtitle: Text('Zip Code'),
-            title: Text(this.customer.zipCode),
+            title: Text(this.customer.address.zipCode),
           ),
           ListTile(
             subtitle: Text('Phone'),

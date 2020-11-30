@@ -106,6 +106,9 @@ class _MainAppState extends State<MainApp> {
           builder: (context, extendedNav) => Theme(
             data: ThemeData(
               brightness: Brightness.dark,
+              appBarTheme: AppBarTheme(
+                actionsIconTheme: IconThemeData(color: Colors.white),
+              ),
               primarySwatch: Colors.blue,
               buttonTheme: ButtonThemeData(
                 buttonColor: Colors.blue,

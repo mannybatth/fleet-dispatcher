@@ -1,8 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fleet_dispatcher/models/customer.dart';
+import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:fleet_dispatcher/models/load.dart';
 import 'package:fleet_dispatcher/services/load_service.dart';
+import 'package:fleet_dispatcher/stores/customers_store.dart';
+import 'package:fleet_dispatcher/stores/drivers_store.dart';
+import 'package:fleet_dispatcher/utils/s2_modal_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:smart_select/smart_select.dart';
 
 class LoadForm extends StatefulWidget {
   final Load load;
@@ -15,6 +23,14 @@ class LoadForm extends StatefulWidget {
 class _LoadFormState extends State<LoadForm> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
+  CustomersStore customersStore;
+  DriversStore driversStore;
+
+  Customer selectedCustomer;
+  List<S2Choice<Customer>> customerOptions = [];
+
+  Driver selectedDriver;
+  List<S2Choice<Driver>> driverOptions = [];
 
   final _shipperController = TextEditingController();
   final _pickUpLocationController = TextEditingController();
@@ -31,9 +47,9 @@ class _LoadFormState extends State<LoadForm> {
 
     if (widget.load != null) {
       _shipperController.text = widget.load.shipper;
-      _pickUpLocationController.text = widget.load.pickUpLocation;
+      _pickUpLocationController.text = widget.load.pickUpLocation.street;
       _consigneeController.text = widget.load.consignee;
-      _deliveryLocationController.text = widget.load.deliveryLocation;
+      _deliveryLocationController.text = widget.load.deliveryLocation.street;
       _rateController.text = '${widget.load.rate}';
       _poNumController.text = widget.load.poNum;
       _loadNumController.text = widget.load.loadNum;
@@ -103,12 +119,49 @@ class _LoadFormState extends State<LoadForm> {
     }
   }
 
+  void onCustomerSelectClick() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text('Choose Options'),
+        message: const Text('Your options are '),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: const Text('One'),
+            onPressed: () {
+              Navigator.pop(context, 'One');
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('Two'),
+            onPressed: () {
+              Navigator.pop(context, 'Two');
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    customersStore = Provider.of<CustomersStore>(context);
+    driversStore = Provider.of<DriversStore>(context);
+
+    customerOptions = customersStore.customersList
+        .map((customer) =>
+            S2Choice<Customer>(value: customer, title: customer.title))
+        .toList();
+
+    driverOptions = driversStore.driversList
+        .map(
+            (driver) => S2Choice<Driver>(value: driver, title: driver.fullName))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          this.widget.load != null ? this.widget.load.id : 'New Load',
+          this.widget.load != null ? 'Edit Load' : 'New Load',
         ),
         actions: [
           Padding(
@@ -124,8 +177,11 @@ class _LoadFormState extends State<LoadForm> {
                       ),
                     ),
                   )
-                : TextButton(
-                    child: Text(this.widget.load != null ? 'SAVE' : 'ADD'),
+                : IconButton(
+                    iconSize: 50,
+                    icon: Text(
+                      this.widget.load != null ? 'SAVE' : 'ADD',
+                    ),
                     onPressed: onActionClick,
                   ),
           ),
@@ -140,6 +196,40 @@ class _LoadFormState extends State<LoadForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    inputDecorationTheme: InputDecorationTheme(),
+                  ),
+                  child: SmartSelect<Customer>.single(
+                    modalType: S2ModalType.popupDialog,
+                    modalHeaderStyle: getS2ModalHeaderStyle(context),
+                    choiceStyle: getS2ChoiceStyle(context),
+                    title: 'Customer',
+                    value: selectedCustomer,
+                    choiceItems: customerOptions,
+                    modalFilter: true,
+                    onChange: (state) =>
+                        setState(() => selectedCustomer = state.value),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    inputDecorationTheme: InputDecorationTheme(),
+                  ),
+                  child: SmartSelect<Driver>.single(
+                    modalType: S2ModalType.popupDialog,
+                    modalHeaderStyle: getS2ModalHeaderStyle(context),
+                    choiceStyle: getS2ChoiceStyle(context),
+                    title: 'Driver',
+                    value: selectedDriver,
+                    choiceItems: driverOptions,
+                    modalFilter: true,
+                    onChange: (state) =>
+                        setState(() => selectedDriver = state.value),
+                  ),
+                ),
+                SizedBox(height: 10),
                 TextFormField(
                   controller: _shipperController,
                   decoration: InputDecoration(
