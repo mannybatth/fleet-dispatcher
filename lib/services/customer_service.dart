@@ -21,7 +21,7 @@ class CustomerService {
     Customer customer,
   ) async {
     CustomersStore store = context.read<CustomersStore>();
-    customer.userId = FirebaseAuth.instance.currentUser.uid;
+    customer.ownerId = FirebaseAuth.instance.currentUser.uid;
     final customerJson = customer.toJson();
 
     final docRef = await FirebaseFirestore.instance

@@ -1,6 +1,7 @@
 import 'package:fleet_dispatcher/models/address.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/models/invoice.dart';
+import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'load.g.dart';
@@ -11,10 +12,11 @@ enum LoadStatus { NONE, DELIVERED, INVOICED, PAYMENT_RECEIVED }
 class Load {
   @JsonKey(ignore: true)
   String id;
-  String userId;
+  String ownerId;
   LoadStatus status;
   String invoiceId;
   String customerId;
+  String driverId;
   String shipper;
   Address pickUpLocation;
   DateTime pickUpDate;
@@ -25,7 +27,7 @@ class Load {
   String loadNum;
   String refNum;
   String orderNum;
-  int rate;
+  double rate;
   List<LoadContact> contacts;
   List<String> conversions;
 
@@ -35,9 +37,12 @@ class Load {
   @JsonKey(ignore: true)
   Customer customer;
 
+  @JsonKey(ignore: true)
+  Driver driver;
+
   Load({
     this.id,
-    this.userId,
+    this.ownerId,
     this.status,
     this.invoiceId,
     this.customerId,

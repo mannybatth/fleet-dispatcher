@@ -7,14 +7,14 @@ part 'customer.g.dart';
 class Customer {
   @JsonKey(ignore: true)
   String id;
-  String userId;
+  String ownerId;
   String title;
   Address address;
   String phone;
   String invoiceEmail;
   Customer({
     this.id,
-    this.userId,
+    this.ownerId,
     this.title,
     this.address,
     this.phone,

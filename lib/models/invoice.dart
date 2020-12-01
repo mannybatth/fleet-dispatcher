@@ -6,7 +6,7 @@ part 'invoice.g.dart';
 class Invoice {
   @JsonKey(ignore: true)
   String id;
-  String userId;
+  String ownerId;
   int invoiceNum;
   String loadId;
   DateTime sentDate;
@@ -17,7 +17,7 @@ class Invoice {
   List<InvoiceItem> extraItems;
   Invoice({
     this.id,
-    this.userId,
+    this.ownerId,
     this.invoiceNum,
     this.loadId,
     this.sentDate,

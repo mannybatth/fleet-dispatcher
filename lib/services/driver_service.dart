@@ -21,7 +21,7 @@ class DriverService {
     Driver driver,
   ) async {
     DriversStore store = context.read<DriversStore>();
-    driver.userId = FirebaseAuth.instance.currentUser.uid;
+    driver.ownerId = FirebaseAuth.instance.currentUser.uid;
     final driverJson = driver.toJson();
 
     final docRef =

@@ -6,7 +6,7 @@ part 'driver.g.dart';
 class Driver {
   @JsonKey(ignore: true)
   String id;
-  String userId;
+  String ownerId;
   String firstName;
   String lastName;
   String phone;
@@ -19,7 +19,7 @@ class Driver {
 
   Driver({
     this.id,
-    this.userId,
+    this.ownerId,
     this.firstName,
     this.lastName,
     this.phone,

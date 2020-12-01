@@ -8,7 +8,7 @@ part of 'load.dart';
 
 Load _$LoadFromJson(Map<String, dynamic> json) {
   return Load(
-    userId: json['userId'] as String,
+    ownerId: json['ownerId'] as String,
     status: _$enumDecodeNullable(_$LoadStatusEnumMap, json['status']),
     invoiceId: json['invoiceId'] as String,
     customerId: json['customerId'] as String,
@@ -30,21 +30,22 @@ Load _$LoadFromJson(Map<String, dynamic> json) {
     loadNum: json['loadNum'] as String,
     refNum: json['refNum'] as String,
     orderNum: json['orderNum'] as String,
-    rate: json['rate'] as int,
+    rate: (json['rate'] as num)?.toDouble(),
     contacts: (json['contacts'] as List)
         ?.map((e) =>
             e == null ? null : LoadContact.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     conversions:
         (json['conversions'] as List)?.map((e) => e as String)?.toList(),
-  );
+  )..driverId = json['driverId'] as String;
 }
 
 Map<String, dynamic> _$LoadToJson(Load instance) => <String, dynamic>{
-      'userId': instance.userId,
+      'ownerId': instance.ownerId,
       'status': _$LoadStatusEnumMap[instance.status],
       'invoiceId': instance.invoiceId,
       'customerId': instance.customerId,
+      'driverId': instance.driverId,
       'shipper': instance.shipper,
       'pickUpLocation': instance.pickUpLocation?.toJson(),
       'pickUpDate': instance.pickUpDate?.toIso8601String(),

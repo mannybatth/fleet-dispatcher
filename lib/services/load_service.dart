@@ -21,7 +21,7 @@ class LoadService {
     Load load,
   ) async {
     LoadsStore store = context.read<LoadsStore>();
-    load.userId = FirebaseAuth.instance.currentUser.uid;
+    load.ownerId = FirebaseAuth.instance.currentUser.uid;
     load.status = load.status ?? LoadStatus.NONE;
     final loadJson = load.toJson();
 
