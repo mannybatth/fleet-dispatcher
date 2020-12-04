@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class CompanyService {
   static Future<void> getCompany(BuildContext context) async {
-    CompanyStore store = context.read<CompanyStore>();
+    CompanyStore store = Provider.of<CompanyStore>(context, listen: false);
     final userId = FirebaseAuth.instance.currentUser.uid;
     final DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
         .collection('companies')
@@ -24,7 +24,7 @@ class CompanyService {
     BuildContext context,
     Company company,
   ) async {
-    CompanyStore store = context.read<CompanyStore>();
+    CompanyStore store = Provider.of<CompanyStore>(context, listen: false);
     final userId = FirebaseAuth.instance.currentUser.uid;
     await FirebaseFirestore.instance
         .collection('companies')

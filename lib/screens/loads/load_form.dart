@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:fleet_dispatcher/models/load.dart';
+import 'package:fleet_dispatcher/services/customer_service.dart';
+import 'package:fleet_dispatcher/services/driver_service.dart';
 import 'package:fleet_dispatcher/services/load_service.dart';
 import 'package:fleet_dispatcher/stores/customers_store.dart';
 import 'package:fleet_dispatcher/stores/drivers_store.dart';
@@ -26,13 +28,13 @@ class LoadForm extends StatefulWidget {
 class _LoadFormState extends State<LoadForm> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
+  bool _initialLoading = false;
   CustomersStore customersStore;
   DriversStore driversStore;
 
   Customer selectedCustomer;
-  List<S2Choice<Customer>> customerOptions = [];
-
   Driver selectedDriver;
+  List<S2Choice<Customer>> customerOptions = [];
   List<S2Choice<Driver>> driverOptions = [];
 
   DateTime pickUpDate;
@@ -87,6 +89,10 @@ class _LoadFormState extends State<LoadForm> {
       pickUpDate = widget.load.pickUpDate;
       deliveryDate = widget.load.deliveryDate;
     }
+
+    Future.delayed(Duration.zero, () {
+      getLoadInfo(context);
+    });
   }
 
   void dispose() {
@@ -181,27 +187,55 @@ class _LoadFormState extends State<LoadForm> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    customersStore = Provider.of<CustomersStore>(context);
-    driversStore = Provider.of<DriversStore>(context);
+  getLoadInfo(BuildContext context) async {
+    setState(() {
+      _initialLoading = true;
+    });
+    if (widget.load != null) {
+      final foundCustomer =
+          await CustomerService.getCustomer(context, widget.load.customerId);
+      final foundDriver =
+          await DriverService.getDriver(context, widget.load.driverId);
+      setState(() {
+        loadOptions();
+        selectedCustomer = foundCustomer;
+        selectedDriver = foundDriver;
+      });
+    } else {
+      await refreshStoresIfEmpty();
+      setState(() {
+        loadOptions();
+      });
+    }
+    setState(() {
+      _initialLoading = false;
+    });
+  }
 
+  refreshStoresIfEmpty() async {
+    if (customersStore.customers.isEmpty) {
+      await CustomerService.getCustomers(context);
+    }
+    if (driversStore.drivers.isEmpty) {
+      await DriverService.getDrivers(context);
+    }
+  }
+
+  loadOptions() {
     customerOptions = customersStore.customersList
         .map((customer) =>
             S2Choice<Customer>(value: customer, title: customer.title))
         .toList();
-
     driverOptions = driversStore.driversList
         .map(
             (driver) => S2Choice<Driver>(value: driver, title: driver.fullName))
         .toList();
+  }
 
-    if (widget.load != null && selectedCustomer == null) {
-      selectedCustomer = customersStore.customers[widget.load.customerId];
-    }
-    if (widget.load != null && selectedDriver == null) {
-      selectedDriver = driversStore.drivers[widget.load.driverId];
-    }
+  @override
+  Widget build(BuildContext context) {
+    customersStore = Provider.of<CustomersStore>(context);
+    driversStore = Provider.of<DriversStore>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -262,6 +296,13 @@ class _LoadFormState extends State<LoadForm> {
                     value: selectedCustomer,
                     choiceItems: customerOptions,
                     modalFilter: true,
+                    tileBuilder: (context, state) {
+                      state.value = selectedCustomer;
+                      return S2Tile.fromState(
+                        state,
+                        isLoading: _initialLoading,
+                      );
+                    },
                     onChange: (state) =>
                         setState(() => selectedCustomer = state.value),
                   ),
@@ -279,6 +320,13 @@ class _LoadFormState extends State<LoadForm> {
                     value: selectedDriver,
                     choiceItems: driverOptions,
                     modalFilter: true,
+                    tileBuilder: (context, state) {
+                      state.value = selectedDriver;
+                      return S2Tile.fromState(
+                        state,
+                        isLoading: _initialLoading,
+                      );
+                    },
                     onChange: (state) =>
                         setState(() => selectedDriver = state.value),
                   ),

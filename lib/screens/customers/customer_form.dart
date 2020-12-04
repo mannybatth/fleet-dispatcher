@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/services/customer_service.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 class CustomerForm extends StatefulWidget {
   final Customer customer;
@@ -46,6 +47,12 @@ class _CustomerFormState extends State<CustomerForm> {
     _phoneController.dispose();
     _invoiceEmailController.dispose();
     super.dispose();
+  }
+
+  void onFormatClick() {
+    _titleController.text = _titleController.text.titleCase;
+    _streetController.text = _streetController.text.titleCase;
+    _cityController.text = _cityController.text.titleCase;
   }
 
   void onActionClick() async {
@@ -106,22 +113,32 @@ class _CustomerFormState extends State<CustomerForm> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10, top: 5, bottom: 5),
-            child: _loading
-                ? Container(
-                    width: 55,
-                    child: Center(
-                      child: SizedBox(
-                        child: CircularProgressIndicator(),
-                        height: 25.0,
-                        width: 25.0,
+            child: Row(
+              children: [
+                IconButton(
+                  iconSize: 60,
+                  icon: Text('FORMAT'),
+                  onPressed: onFormatClick,
+                ),
+                _loading
+                    ? Container(
+                        width: 55,
+                        child: Center(
+                          child: SizedBox(
+                            child: CircularProgressIndicator(),
+                            height: 25.0,
+                            width: 25.0,
+                          ),
+                        ),
+                      )
+                    : IconButton(
+                        iconSize: 50,
+                        icon:
+                            Text(this.widget.customer != null ? 'SAVE' : 'ADD'),
+                        onPressed: onActionClick,
                       ),
-                    ),
-                  )
-                : IconButton(
-                    iconSize: 50,
-                    icon: Text(this.widget.customer != null ? 'SAVE' : 'ADD'),
-                    onPressed: onActionClick,
-                  ),
+              ],
+            ),
           ),
         ],
       ),

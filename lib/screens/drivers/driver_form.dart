@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:fleet_dispatcher/services/driver_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class DriverForm extends StatefulWidget {
   final Driver driver;
@@ -17,7 +18,7 @@ class _DriverFormState extends State<DriverForm> {
 
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  final _phoneController = TextEditingController();
+  final _phoneController = MaskedTextController(mask: '000-000-0000');
   final _truckNumController = TextEditingController();
   final _trailerNumController = TextEditingController();
 
@@ -118,7 +119,6 @@ class _DriverFormState extends State<DriverForm> {
         ],
       ),
       body: Form(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
         child: SingleChildScrollView(
           child: Padding(

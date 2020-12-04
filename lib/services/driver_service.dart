@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class DriverService {
   static Future<void> getDrivers(BuildContext context) async {
-    DriversStore store = context.read<DriversStore>();
+    DriversStore store = Provider.of<DriversStore>(context, listen: false);
     final QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('drivers').get();
     final drivers = querySnapshot.docs
@@ -16,11 +16,25 @@ class DriverService {
     store.saveDrivers(drivers);
   }
 
+  static Future<Driver> getDriver(
+    BuildContext context,
+    String driverId,
+  ) async {
+    DriversStore store = Provider.of<DriversStore>(context, listen: false);
+    final storeDriver = store.drivers[driverId];
+    if (storeDriver != null) {
+      return storeDriver;
+    }
+
+    await DriverService.getDrivers(context);
+    return store.drivers[driverId];
+  }
+
   static Future<void> createDriver(
     BuildContext context,
     Driver driver,
   ) async {
-    DriversStore store = context.read<DriversStore>();
+    DriversStore store = Provider.of<DriversStore>(context, listen: false);
     driver.ownerId = FirebaseAuth.instance.currentUser.uid;
     final driverJson = driver.toJson();
 
@@ -35,7 +49,7 @@ class DriverService {
     String driverId,
     Driver driver,
   ) async {
-    DriversStore store = context.read<DriversStore>();
+    DriversStore store = Provider.of<DriversStore>(context, listen: false);
     final driverJson = driver.toJson();
 
     await FirebaseFirestore.instance

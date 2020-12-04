@@ -9,9 +9,13 @@ class LoadsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
       itemCount: loads.length,
       itemBuilder: (context, index) {
-        return LoadTile(load: loads[index]);
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: LoadTile(load: loads[index]),
+        );
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:fleet_dispatcher/models/payment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invoice.g.dart';
@@ -15,6 +16,10 @@ class Invoice {
   int paidAmount;
   String itemName;
   List<InvoiceItem> extraItems;
+
+  @JsonKey(ignore: true)
+  List<Payment> payments;
+
   Invoice({
     this.id,
     this.ownerId,

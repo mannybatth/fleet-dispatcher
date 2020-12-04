@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 void main() {
   runApp(MainApp());
@@ -45,12 +46,64 @@ class _MainAppState extends State<MainApp> {
     SimpleAuthFlutter.init(context);
   }
 
+  ThemeData _buildTheme(Brightness brightness) {
+    final inputDecorationTheme = InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red, width: 1.0),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.grey.shade800,
+          width: 1.0,
+        ),
+      ),
+    );
+
+    final buttonTheme = ButtonThemeData(
+      buttonColor: Colors.blue,
+      textTheme: ButtonTextTheme.primary,
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+    );
+
+    return brightness == Brightness.dark
+        ? ThemeData.dark().copyWith(
+            appBarTheme: AppBarTheme(
+              shadowColor: Colors.transparent,
+            ),
+            shadowColor: Colors.transparent,
+            textTheme: ThemeData.dark().textTheme.apply(),
+            inputDecorationTheme: inputDecorationTheme,
+            buttonTheme: buttonTheme,
+          )
+        : ThemeData.light().copyWith(
+            appBarTheme: AppBarTheme(
+              shadowColor: Colors.transparent,
+            ),
+            shadowColor: Colors.transparent,
+            textTheme: ThemeData.light().textTheme.apply(),
+            inputDecorationTheme: inputDecorationTheme,
+            buttonTheme: buttonTheme,
+            scaffoldBackgroundColor: Colors.grey.shade200,
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final brightness = Brightness.light;
+
     if (_error) {
       return Theme(
         data: ThemeData(
-          brightness: Brightness.dark,
+          brightness: brightness,
         ),
         child: Material(
           child: Center(
@@ -79,7 +132,7 @@ class _MainAppState extends State<MainApp> {
     if (!_initialized) {
       return Theme(
         data: ThemeData(
-          brightness: Brightness.dark,
+          brightness: brightness,
         ),
         child: Material(
           child: Center(
@@ -96,49 +149,21 @@ class _MainAppState extends State<MainApp> {
         Provider<DriversStore>(create: (_) => DriversStore()),
         Provider<CompanyStore>(create: (_) => CompanyStore()),
       ],
-      child: MaterialApp(
-        title: 'Fleet Dispatcher',
-        theme: ThemeData(),
-        debugShowCheckedModeBanner: false,
-        builder: ExtendedNavigator.builder<AppRouter>(
-          router: AppRouter(),
-          guards: [AuthGuard()],
-          builder: (context, extendedNav) => Theme(
-            data: ThemeData(
-              brightness: Brightness.dark,
-              appBarTheme: AppBarTheme(
-                actionsIconTheme: IconThemeData(color: Colors.white),
-              ),
-              primarySwatch: Colors.blue,
-              buttonTheme: ButtonThemeData(
-                buttonColor: Colors.blue,
-                textTheme: ButtonTextTheme.primary,
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red, width: 1.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red, width: 1.0),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade800,
-                    width: 1.0,
-                  ),
-                ),
-              ),
+      child: DynamicTheme(
+        defaultBrightness: brightness,
+        data: (brightness) => _buildTheme(brightness),
+        themedWidgetBuilder: (context, theme) {
+          return new MaterialApp(
+            title: 'Fleet Dispatcher',
+            theme: theme,
+            debugShowCheckedModeBanner: false,
+            builder: ExtendedNavigator.builder<AppRouter>(
+              router: AppRouter(),
+              guards: [AuthGuard()],
+              builder: (context, extendedNav) => extendedNav,
             ),
-            child: extendedNav,
-          ),
-        ),
+          );
+        },
       ),
     );
   }

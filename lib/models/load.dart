@@ -2,6 +2,7 @@ import 'package:fleet_dispatcher/models/address.dart';
 import 'package:fleet_dispatcher/models/customer.dart';
 import 'package:fleet_dispatcher/models/invoice.dart';
 import 'package:fleet_dispatcher/models/driver.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'load.g.dart';
@@ -64,6 +65,45 @@ class Load {
   factory Load.fromJson(String id, Map<String, dynamic> json) =>
       _$LoadFromJson(json)..id = id;
   Map<String, dynamic> toJson() => _$LoadToJson(this);
+
+  String getLoadRefText() {
+    if (this.poNum != null && this.poNum.isNotEmpty) {
+      return 'PO #$poNum';
+    } else if (this.loadNum != null && this.loadNum.isNotEmpty) {
+      return 'Load #$loadNum';
+    } else if (this.refNum != null && this.refNum.isNotEmpty) {
+      return 'Ref #$refNum';
+    } else if (this.orderNum != null && this.orderNum.isNotEmpty) {
+      return 'Order #$orderNum';
+    }
+    return '';
+  }
+
+  String getLoadStatusText() {
+    if (this.status == LoadStatus.NONE) {
+      return 'New';
+    } else if (this.status == LoadStatus.DELIVERED) {
+      return 'Delivered';
+    } else if (this.status == LoadStatus.INVOICED) {
+      return 'Invoiced';
+    } else if (this.status == LoadStatus.PAYMENT_RECEIVED) {
+      return 'Paid';
+    }
+    return '';
+  }
+
+  Color getLoadStatusColor() {
+    if (this.status == LoadStatus.NONE) {
+      return Colors.blue;
+    } else if (this.status == LoadStatus.DELIVERED) {
+      return Colors.brown;
+    } else if (this.status == LoadStatus.INVOICED) {
+      return Colors.orange;
+    } else if (this.status == LoadStatus.PAYMENT_RECEIVED) {
+      return Colors.green;
+    }
+    return Colors.blue;
+  }
 }
 
 @JsonSerializable()

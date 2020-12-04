@@ -17,16 +17,19 @@ class _LoadsScreenState extends State<LoadsScreen> {
   int _selectedIndex = 0;
   LoadsStore store;
 
-  final List<Widget> _titleOptions = <Widget>[
-    Text('Current Loads'),
-    Text('Delivered Loads'),
-    Text('Invoiced Loads'),
-    Text('Paid Loads'),
+  final List<String> _titles = [
+    'Accepted Loads',
+    'Delivered Loads',
+    'Invoiced Loads',
+    'Paid Loads',
   ];
 
   void initState() {
     super.initState();
-    LoadService.getLoads(context);
+
+    Future.delayed(Duration.zero, () {
+      LoadService.getLoads(context);
+    });
   }
 
   void _onItemTapped(int index) {
@@ -41,7 +44,7 @@ class _LoadsScreenState extends State<LoadsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: _titleOptions.elementAt(_selectedIndex),
+        title: Text(_titles[_selectedIndex]),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -50,7 +53,7 @@ class _LoadsScreenState extends State<LoadsScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Current',
+            label: 'Accepted',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.mail),

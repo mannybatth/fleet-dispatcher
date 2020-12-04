@@ -42,6 +42,7 @@ dependencies:
   smart_select: ^4.3.2
   flutter_masked_text: ^0.8.0
   recase: ^3.0.1
+  dynamic_theme: ^1.0.1
 
   syncfusion_flutter_pdf: ^18.3.51-beta
 

@@ -42,7 +42,7 @@ class _LoadDetailScreenState extends State<LoadDetailScreen> {
             subtitle: Text('Shipper'),
             title: Text(this.load.shipper),
           ),
-          SizedBox(height: 100)
+          SizedBox(height: 100),
         ],
       ),
       floatingActionButton: FloatingActionButton(
