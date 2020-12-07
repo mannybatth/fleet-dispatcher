@@ -34,7 +34,7 @@ class _DriverDetailScreenState extends State<DriverDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.driver.lastName),
+        title: Text(this.driver.fullName),
       ),
       body: ListView(
         children: [

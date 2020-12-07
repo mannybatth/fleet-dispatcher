@@ -4,6 +4,7 @@ import 'package:fleet_dispatcher/models/invoice.dart';
 import 'package:fleet_dispatcher/models/driver.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:recase/recase.dart';
 
 part 'load.g.dart';
 
@@ -30,7 +31,7 @@ class Load {
   String orderNum;
   double rate;
   List<LoadContact> contacts;
-  List<String> conversions;
+  List<String> conversations;
 
   @JsonKey(ignore: true)
   Invoice invoice;
@@ -59,7 +60,7 @@ class Load {
     this.orderNum,
     this.rate,
     this.contacts,
-    this.conversions,
+    this.conversations,
   });
 
   factory Load.fromJson(String id, Map<String, dynamic> json) =>
@@ -82,14 +83,8 @@ class Load {
   String getLoadStatusText() {
     if (this.status == LoadStatus.NONE) {
       return 'New';
-    } else if (this.status == LoadStatus.DELIVERED) {
-      return 'Delivered';
-    } else if (this.status == LoadStatus.INVOICED) {
-      return 'Invoiced';
-    } else if (this.status == LoadStatus.PAYMENT_RECEIVED) {
-      return 'Paid';
     }
-    return '';
+    return _$LoadStatusEnumMap[this.status].titleCase;
   }
 
   Color getLoadStatusColor() {

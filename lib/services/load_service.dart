@@ -10,8 +10,10 @@ import 'package:provider/provider.dart';
 class LoadService {
   static Future<void> getLoads(BuildContext context) async {
     LoadsStore loadsStore = Provider.of<LoadsStore>(context, listen: false);
-    final QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('loads').get();
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('loads')
+        .orderBy('pickUpDate', descending: true)
+        .get();
     final loads = querySnapshot.docs
         .map((item) => Load.fromJson(item.id, item.data()))
         .toList();

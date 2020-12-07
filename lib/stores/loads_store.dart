@@ -10,7 +10,11 @@ abstract class _LoadsStore with Store {
   ObservableMap<String, Load> loads = ObservableMap<String, Load>();
 
   @computed
-  List<Load> get loadsList => loads.values.toList();
+  List<Load> get loadsList {
+    final list = loads.values.toList();
+    list.sort((a, b) => b.pickUpDate.compareTo(a.pickUpDate));
+    return list;
+  }
 
   @computed
   List<Load> get currentLoads =>

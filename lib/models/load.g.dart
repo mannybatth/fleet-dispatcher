@@ -35,8 +35,8 @@ Load _$LoadFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : LoadContact.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    conversions:
-        (json['conversions'] as List)?.map((e) => e as String)?.toList(),
+    conversations:
+        (json['conversations'] as List)?.map((e) => e as String)?.toList(),
   )..driverId = json['driverId'] as String;
 }
 
@@ -58,7 +58,7 @@ Map<String, dynamic> _$LoadToJson(Load instance) => <String, dynamic>{
       'orderNum': instance.orderNum,
       'rate': instance.rate,
       'contacts': instance.contacts?.map((e) => e?.toJson())?.toList(),
-      'conversions': instance.conversions,
+      'conversations': instance.conversations,
     };
 
 T _$enumDecode<T>(
