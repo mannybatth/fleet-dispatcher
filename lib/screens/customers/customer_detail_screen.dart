@@ -36,38 +36,54 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
       appBar: AppBar(
         title: Text(this.customer.title),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            subtitle: Text('Title'),
-            title: Text(this.customer.title),
-          ),
-          ListTile(
-            subtitle: Text('Address'),
-            title: Text(this.customer.address.street),
-          ),
-          ListTile(
-            subtitle: Text('City'),
-            title: Text(this.customer.address.city),
-          ),
-          ListTile(
-            subtitle: Text('State'),
-            title: Text(this.customer.address.state),
-          ),
-          ListTile(
-            subtitle: Text('Zip Code'),
-            title: Text(this.customer.address.zipCode),
-          ),
-          ListTile(
-            subtitle: Text('Phone'),
-            title: Text(this.customer.phone),
-          ),
-          ListTile(
-            subtitle: Text('Invoice Email'),
-            title: Text(this.customer.invoiceEmail),
-          ),
-          SizedBox(height: 100)
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: ListView(
+          children: [
+            ListTile(
+              subtitle: Text('Title'),
+              title: Text(this.customer?.title ?? ''),
+              tileColor: Colors.white,
+            ),
+            if (this.customer?.address?.street?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Address'),
+                title: Text(this.customer.address.street),
+                tileColor: Colors.white,
+              ),
+            if (this.customer?.address?.city?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('City'),
+                title: Text(this.customer.address.city),
+                tileColor: Colors.white,
+              ),
+            if (this.customer?.address?.state?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('State'),
+                title: Text(this.customer.address.state),
+                tileColor: Colors.white,
+              ),
+            if (this.customer?.address?.zipCode?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Zip Code'),
+                title: Text(this.customer.address.zipCode),
+                tileColor: Colors.white,
+              ),
+            if (this.customer?.phone?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Phone'),
+                title: Text(this.customer.phone),
+                tileColor: Colors.white,
+              ),
+            if (this.customer?.invoiceEmail?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Invoice Email'),
+                title: Text(this.customer.invoiceEmail),
+                tileColor: Colors.white,
+              ),
+            SizedBox(height: 100)
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

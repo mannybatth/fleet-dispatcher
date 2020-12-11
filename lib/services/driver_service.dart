@@ -30,7 +30,7 @@ class DriverService {
     return store.drivers[driverId];
   }
 
-  static Future<void> createDriver(
+  static Future<Driver> createDriver(
     BuildContext context,
     Driver driver,
   ) async {
@@ -42,6 +42,7 @@ class DriverService {
         await FirebaseFirestore.instance.collection('drivers').add(driverJson);
     driver.id = docRef.id;
     store.addDriver(driver);
+    return driver;
   }
 
   static Future<void> updateDriver(
@@ -55,7 +56,7 @@ class DriverService {
     await FirebaseFirestore.instance
         .collection('drivers')
         .doc(driverId)
-        .update(driverJson);
+        .set(driverJson);
 
     store.addDriver(Driver.fromJson(driverId, driverJson));
   }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fleet_dispatcher/models/load.dart';
 import 'package:fleet_dispatcher/services/customer_service.dart';
 import 'package:fleet_dispatcher/services/driver_service.dart';
+import 'package:fleet_dispatcher/services/invoice_service.dart';
 import 'package:fleet_dispatcher/stores/loads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +22,15 @@ class LoadService {
       load.customer =
           await CustomerService.getCustomer(context, load.customerId);
       load.driver = await DriverService.getDriver(context, load.driverId);
+      if (load.invoiceId != null) {
+        load.invoice = await InvoiceService.getInvoice(context, load.invoiceId);
+      }
       return load;
     }));
     loadsStore.saveLoads(populatedLoads);
   }
 
-  static Future<void> createLoad(
+  static Future<Load> createLoad(
     BuildContext context,
     Load load,
   ) async {
@@ -41,6 +45,7 @@ class LoadService {
     load.customer = await CustomerService.getCustomer(context, load.customerId);
     load.driver = await DriverService.getDriver(context, load.driverId);
     store.addLoad(load);
+    return load;
   }
 
   static Future<void> updateLoad(
@@ -54,12 +59,29 @@ class LoadService {
     await FirebaseFirestore.instance
         .collection('loads')
         .doc(loadId)
-        .update(loadJson);
+        .set(loadJson);
 
     final newLoad = Load.fromJson(loadId, loadJson);
     newLoad.customer =
         await CustomerService.getCustomer(context, load.customerId);
     newLoad.driver = await DriverService.getDriver(context, load.driverId);
     store.addLoad(newLoad);
+  }
+
+  static Future<void> updateLoadInvoiceId(
+    BuildContext context,
+    String loadId,
+    String invoiceId,
+  ) async {
+    LoadsStore store = Provider.of<LoadsStore>(context, listen: false);
+
+    await FirebaseFirestore.instance
+        .collection('loads')
+        .doc(loadId)
+        .update({'invoiceId': invoiceId});
+
+    final load = store.loads[loadId];
+    load.invoiceId = invoiceId;
+    store.addLoad(load);
   }
 }

@@ -33,7 +33,7 @@ class CustomerService {
     return store.customers[customerId];
   }
 
-  static Future<void> createCustomer(
+  static Future<Customer> createCustomer(
     BuildContext context,
     Customer customer,
   ) async {
@@ -46,6 +46,7 @@ class CustomerService {
         .add(customerJson);
     customer.id = docRef.id;
     store.addCustomer(customer);
+    return customer;
   }
 
   static Future<void> updateCustomer(
@@ -59,7 +60,7 @@ class CustomerService {
     await FirebaseFirestore.instance
         .collection('customers')
         .doc(customerId)
-        .update(customerJson);
+        .set(customerJson);
 
     store.addCustomer(Customer.fromJson(customerId, customerJson));
   }

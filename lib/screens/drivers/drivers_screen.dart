@@ -26,29 +26,38 @@ class _DriversScreenState extends State<DriversScreen> {
     store = Provider.of<DriversStore>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Drivers'),
       ),
       drawer: AppDrawer(),
       body: Observer(
-        builder: (_) => ListView.builder(
-          itemCount: store.driversList.length,
-          itemBuilder: (context, index) {
-            final driver = store.driversList[index];
-            return InkWell(
-              onTap: () {
-                ExtendedNavigator.root.push(
-                  Routes.driverDetailScreen,
-                  arguments: DriverDetailScreenArguments(driverId: driver.id),
-                );
-              },
-              child: ListTile(
-                mouseCursor: SystemMouseCursors.click,
-                title: Text(driver.fullName),
-                subtitle: Text(driver.phone),
-              ),
-            );
-          },
+        builder: (_) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            itemCount: store.driversList.length,
+            itemBuilder: (context, index) {
+              final driver = store.driversList[index];
+              return InkWell(
+                onTap: () {
+                  ExtendedNavigator.root.push(
+                    Routes.driverDetailScreen,
+                    arguments: DriverDetailScreenArguments(driverId: driver.id),
+                  );
+                },
+                child: ListTile(
+                  mouseCursor: SystemMouseCursors.click,
+                  title: Text(driver.fullName),
+                  subtitle: Text(driver.phone),
+                ),
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

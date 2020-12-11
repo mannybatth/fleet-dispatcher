@@ -26,16 +26,25 @@ class _CustomersScreenState extends State<CustomersScreen> {
     store = Provider.of<CustomersStore>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Customers'),
       ),
       drawer: AppDrawer(),
       body: Observer(
-        builder: (_) => ListView.builder(
-          itemCount: store.customersList.length,
-          itemBuilder: (context, index) {
-            return CustomerTile(customer: store.customersList[index]);
-          },
+        builder: (_) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              height: 1,
+              indent: 10,
+              endIndent: 10,
+            ),
+            itemCount: store.customersList.length,
+            itemBuilder: (context, index) {
+              return CustomerTile(customer: store.customersList[index]);
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

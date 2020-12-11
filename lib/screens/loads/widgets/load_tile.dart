@@ -13,6 +13,7 @@ class LoadTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      hoverColor: Colors.transparent,
       onTap: () {
         ExtendedNavigator.root.push(
           Routes.loadDetailScreen,
@@ -51,13 +52,15 @@ class LoadTile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(load.customer.title,
-                      style: Theme.of(context).textTheme.subtitle2.merge(
-                            TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey.shade700,
-                            ),
-                          )),
+                  child: Text(
+                    load.customer.title,
+                    style: Theme.of(context).textTheme.subtitle2.merge(
+                          TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                  ),
                 ),
               ),
             ),

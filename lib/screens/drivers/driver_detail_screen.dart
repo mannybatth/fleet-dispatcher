@@ -36,30 +36,41 @@ class _DriverDetailScreenState extends State<DriverDetailScreen> {
       appBar: AppBar(
         title: Text(this.driver.fullName),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            subtitle: Text('First Name'),
-            title: Text(this.driver.firstName),
-          ),
-          ListTile(
-            subtitle: Text('Last Name'),
-            title: Text(this.driver.lastName),
-          ),
-          ListTile(
-            subtitle: Text('Phone'),
-            title: Text(this.driver.phone),
-          ),
-          ListTile(
-            subtitle: Text('Truck #'),
-            title: Text(this.driver.truckNum),
-          ),
-          ListTile(
-            subtitle: Text('Trailer #'),
-            title: Text(this.driver.trailerNum),
-          ),
-          SizedBox(height: 100)
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: ListView(
+          children: [
+            ListTile(
+              subtitle: Text('First Name'),
+              title: Text(this.driver?.firstName ?? ''),
+              tileColor: Colors.white,
+            ),
+            ListTile(
+              subtitle: Text('Last Name'),
+              title: Text(this.driver?.lastName ?? ''),
+              tileColor: Colors.white,
+            ),
+            if (this.driver?.phone?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Phone'),
+                title: Text(this.driver?.phone),
+                tileColor: Colors.white,
+              ),
+            if (this.driver?.truckNum?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Truck #'),
+                title: Text(this.driver?.truckNum),
+                tileColor: Colors.white,
+              ),
+            if (this.driver?.trailerNum?.isNotEmpty ?? false)
+              ListTile(
+                subtitle: Text('Trailer #'),
+                title: Text(this.driver?.trailerNum),
+                tileColor: Colors.white,
+              ),
+            SizedBox(height: 100)
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -22,7 +22,7 @@ import '../screens/dashboard/dashboard_screen.dart';
 import '../screens/drivers/driver_detail_screen.dart';
 import '../screens/drivers/driver_form.dart';
 import '../screens/drivers/drivers_screen.dart';
-import '../screens/loads/load_detail_screen.dart';
+import '../screens/loads/details/load_detail_screen.dart';
 import '../screens/loads/load_form.dart';
 import '../screens/loads/loads_screen.dart';
 import '../screens/login/login_screen.dart';

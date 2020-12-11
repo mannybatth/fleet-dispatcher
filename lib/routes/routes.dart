@@ -10,7 +10,7 @@ import 'package:fleet_dispatcher/screens/dashboard/dashboard_screen.dart';
 import 'package:fleet_dispatcher/screens/drivers/driver_detail_screen.dart';
 import 'package:fleet_dispatcher/screens/drivers/driver_form.dart';
 import 'package:fleet_dispatcher/screens/drivers/drivers_screen.dart';
-import 'package:fleet_dispatcher/screens/loads/load_detail_screen.dart';
+import 'package:fleet_dispatcher/screens/loads/details/load_detail_screen.dart';
 import 'package:fleet_dispatcher/screens/loads/load_form.dart';
 import 'package:fleet_dispatcher/screens/loads/loads_screen.dart';
 import 'package:fleet_dispatcher/screens/login/login_screen.dart';

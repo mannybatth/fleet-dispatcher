@@ -28,8 +28,6 @@ class _LoadsListState extends State<LoadsList> {
       }
       loadsByDate[key].add(load);
     });
-
-    print(loadsByDate);
   }
 
   @override
